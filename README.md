@@ -28,7 +28,7 @@
 
 `index.html` の「Google Play で入手」ボタン(ヒーローと最後の2か所。`btn-store` を検索)は、Google Play のストアページ(`https://play.google.com/store/apps/details?id=io.github.tossy0527.georhythm&referrer=utm_source%3Dsite%26utm_campaign%3Dtop`)へのリンクです。`referrer` は、サイトから来た人を Play Console で数えるための参照元です。リンク先を変えるときは2か所をそろえて直すこと。Google Play のバッジ画像に差し替える場合は、公式のバッジ素材とガイドラインに従うこと。
 
-ボタンの下の注記(2か所)と、よくある質問の「iPhoneでも使えますか?」には、iPhone版のお知らせを受け取るGoogleフォーム(`https://forms.gle/3gJXve2NQbJSPzrA9`)へのリンクがあります。リンク先を変えるときは3か所をそろえて直すこと。
+その下の「iOS版のお知らせを受け取る」ボタン(同じ2か所。`btn-store-sub`を検索)と、よくある質問の「iPhoneでも使えますか?」の答えは、iOS版のお知らせを受け取るGoogleフォーム(`https://forms.gle/3gJXve2NQbJSPzrA9`)へのリンクです。リンク先を変えるときは3か所をそろえて直すこと。ボタンの頭のOS名(`class="os"`)は文字の札にしていて、AppleやGoogleのマークは使わない(App Storeのバッジは、App Storeで入手できるアプリにだけ使える)。
 
 ## ポリシーのページを更新する
 
