@@ -139,6 +139,12 @@ a:focus-visible,summary:focus-visible{outline:2px solid var(--color-moss);outlin
   text-decoration:none;-webkit-tap-highlight-color:transparent;
 }
 .btn-store:hover{filter:brightness(1.08)}
+/* 入手ボタンの縦並び。幅は長いほうのボタンにそろえる */
+.store-col{display:flex;flex-direction:column;align-items:stretch;gap:12px}
+.btn-store-sub{background:transparent;color:var(--color-moss-deep)}
+.btn-store-sub:hover{filter:none;background:rgba(95,122,84,.08)}
+/* ボタンの頭に付けるOS名の札 */
+.btn-store .os{font-size:.72em;font-weight:700;letter-spacing:.06em;line-height:1.4;padding:2px 8px;margin-right:10px;border:1px solid currentColor;border-radius:999px}
 .store-note{font-size:.85rem;color:var(--color-ink-soft)}
 
 .site-footer{border-top:1px solid var(--color-line);padding-block:36px 48px;color:var(--color-ink-soft);font-size:.88rem}
@@ -374,6 +380,7 @@ a:focus-visible,summary:focus-visible{outline:2px solid var(--color-moss);outlin
 }
 @media (max-width:420px){
   .btn-store{padding:12px 22px;font-size:.95rem}
+  .store-col{align-self:stretch}
   .faq summary{padding:14px 14px;gap:12px}
   .faq details p{padding-left:52px;padding-right:14px}
 }
@@ -430,7 +437,10 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <h1><span>いつもの場所に着くだけで、</span><span>記録が始まる</span></h1>
       <p class="hero-lead">カフェや図書館、コワーキングスペースなど、よく行く場所を登録しておくことで、その場所での滞在を自動で記録するアプリです。</p>
       <div class="store">
-        <a class="btn-store" href="https://play.google.com/store/apps/details?id=io.github.tossy0527.georhythm&amp;referrer=utm_source%3Dsite%26utm_campaign%3Dtop">Google Play で入手</a>
+        <div class="store-col">
+          <a class="btn-store" href="https://play.google.com/store/apps/details?id=io.github.tossy0527.georhythm&amp;referrer=utm_source%3Dsite%26utm_campaign%3Dtop"><span class="os">Android</span>Google Play で入手</a>
+          <a class="btn-store btn-store-sub" href="https://forms.gle/3gJXve2NQbJSPzrA9" target="_blank" rel="noopener"><span class="os">iOS</span>iOS版のお知らせを受け取る</a>
+        </div>
         <p class="store-note">現在はAndroidのみに対応しています。</p>
       </div>
     </div>
@@ -746,7 +756,7 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       </details>
       <details>
         <summary><span class="q">iPhoneでも使えますか?</span><span class="ms">expand_more</span></summary>
-        <p>現在はAndroidのみに対応しています。</p>
+        <p>現在はAndroidのみに対応しています。iOS版の公開を検討しています。公開したときにお知らせを受け取るには、<a href="https://forms.gle/3gJXve2NQbJSPzrA9" target="_blank" rel="noopener">こちらのフォーム</a>から登録してください。</p>
       </details>
     </div>
   </div>
@@ -757,7 +767,10 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
   <div class="wrap reveal">
     <h2 class="h2">Google Play で配信中</h2>
     <div class="store">
-      <a class="btn-store" href="https://play.google.com/store/apps/details?id=io.github.tossy0527.georhythm&amp;referrer=utm_source%3Dsite%26utm_campaign%3Dtop">Google Play で入手</a>
+      <div class="store-col">
+        <a class="btn-store" href="https://play.google.com/store/apps/details?id=io.github.tossy0527.georhythm&amp;referrer=utm_source%3Dsite%26utm_campaign%3Dtop"><span class="os">Android</span>Google Play で入手</a>
+        <a class="btn-store btn-store-sub" href="https://forms.gle/3gJXve2NQbJSPzrA9" target="_blank" rel="noopener"><span class="os">iOS</span>iOS版のお知らせを受け取る</a>
+      </div>
       <p class="store-note">現在はAndroidのみに対応しています。</p>
     </div>
   </div>
