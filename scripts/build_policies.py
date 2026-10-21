@@ -2,10 +2,14 @@
 """ポリシーの原本(Markdown)から、公開ページ(privacy.html・privacy-en.html・tokushoho.html)の<main>の中身を生成する。
 
 原本はアプリのリポジトリ(非公開)の documents/ にあるため、手元で実行する。
+既定では、アプリのリポジトリの統合ブランチ(GitHubの既定ブランチ)をfetchし、その最新の原本を読む。
+作業コピーがどのブランチにいても(mainのままでも)、古い原本から生成してしまわないようにするため。
 <main>の外側(<head>・CSS・パンくず・フッター)は、今あるHTMLをテンプレートとしてそのまま残す。
 
 使い方:
-    python3 scripts/build_policies.py [原本のフォルダ]   # 既定: ../geoben/documents/
+    python3 scripts/build_policies.py                    # 統合ブランチの最新の原本から生成する(リポジトリの既定: ../geoben)
+    python3 scripts/build_policies.py --repo ~/dev/geoben # アプリのリポジトリの場所を指定する
+    python3 scripts/build_policies.py [原本のフォルダ]   # フォルダのファイルをそのまま読む(コミット前の原本を試すとき)
     python3 scripts/build_policies.py --check            # 書き換えずに、公開ページが原本と一致するかだけ確かめる
 
 原本の書き方の決まり(これ以外の記法はエラーにする):
@@ -24,7 +28,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_SRC = ROOT.parent / "geoben" / "documents"
+DEFAULT_REPO = ROOT.parent / "geoben"
+SRC_DIR_IN_REPO = "documents"
 
 # table: header=表の1行目を見出し行にする。key_value=見出し行を出さず、各行の1列目を<th>にする(項目と内容の表)
 PAGES = [
@@ -195,15 +200,14 @@ def render(md, table_style, heading_ids):
     return "\n".join(out) + "\n"
 
 
-def build(page, src_dir):
-    src = src_dir / page["src"]
+def build(page, read_source):
     out_path = ROOT / page["out"]
     template = out_path.read_text(encoding="utf-8")
     if len(MAIN.findall(template)) != 1:
         raise SourceError(f"{page['out']} に <main> がちょうど1つありません")
 
     body = GENERATED_NOTE.format(src=page["src"]) + render(
-        src.read_text(encoding="utf-8"), page["table"], HEADING_IDS.get(page["out"], {})
+        read_source(page["src"]), page["table"], HEADING_IDS.get(page["out"], {})
     )
     result = MAIN.sub(lambda m: m.group(1) + body + m.group(3), template)
 
@@ -214,39 +218,74 @@ def build(page, src_dir):
     return out_path, template, result
 
 
-def describe_source(src_dir):
+def git(repo, *args):
+    return subprocess.run(["git", "-C", str(repo), *args], capture_output=True, text=True, check=True).stdout.strip()
+
+
+def folder_source(src_dir):
+    """フォルダのファイルをそのまま読む。"""
+    if not src_dir.is_dir():
+        sys.exit(f"原本のフォルダが見つかりません: {src_dir}")
+
+    def read(name):
+        path = src_dir / name
+        if not path.is_file():
+            raise SourceError(f"原本がありません: {path}")
+        return path.read_text(encoding="utf-8")
+
     try:
-        info = subprocess.run(
-            ["git", "-C", str(src_dir), "log", "-1", "--format=%h %cd %s", "--date=short", "--", "."],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
-        branch = subprocess.run(
-            ["git", "-C", str(src_dir), "rev-parse", "--abbrev-ref", "HEAD"],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
-        dirty = subprocess.run(
-            ["git", "-C", str(src_dir), "status", "--porcelain", "--", "."],
-            capture_output=True, text=True, check=True,
-        ).stdout.strip()
-        return f"{branch} / {info}" + (" (コミットしていない変更あり)" if dirty else "")
+        info = git(src_dir, "log", "-1", "--format=%h %cd %s", "--date=short", "--", ".")
+        branch = git(src_dir, "rev-parse", "--abbrev-ref", "HEAD")
+        dirty = git(src_dir, "status", "--porcelain", "--", ".")
+        desc = f"{branch} / {info}" + (" (コミットしていない変更あり)" if dirty else "")
     except (subprocess.CalledProcessError, FileNotFoundError):
-        return "(gitの情報を取れませんでした)"
+        desc = "(gitの情報を取れませんでした)"
+    return read, f"{src_dir}\n      {desc}"
+
+
+def integration_branch_source(repo):
+    """アプリのリポジトリの統合ブランチ(GitHubの既定ブランチ)をfetchし、その最新の原本を読む。作業コピーには触れない。"""
+    try:
+        # 統合ブランチの名前はリリースのたびに変わる(develop/vX.Y.0)ため、GitHubの既定ブランチから引く
+        head = git(repo, "ls-remote", "--symref", "origin", "HEAD").splitlines()[0]
+        if not head.startswith("ref: refs/heads/"):
+            sys.exit(f"統合ブランチの名前を取れませんでした: {head}")
+        branch = head.removeprefix("ref: refs/heads/").split("\t")[0]
+        git(repo, "fetch", "--quiet", "origin", branch)
+        ref = f"origin/{branch}"
+        info = git(repo, "log", "-1", "--format=%h %cd %s", "--date=short", ref, "--", SRC_DIR_IN_REPO)
+    except subprocess.CalledProcessError as e:
+        sys.exit(f"アプリのリポジトリから統合ブランチを取れませんでした({repo}): {e.stderr.strip()}")
+    except FileNotFoundError:
+        sys.exit("gitが見つかりません")
+
+    def read(name):
+        try:
+            return git(repo, "show", f"{ref}:{SRC_DIR_IN_REPO}/{name}") + "\n"
+        except subprocess.CalledProcessError:
+            raise SourceError(f"{ref} に原本がありません: {SRC_DIR_IN_REPO}/{name}")
+
+    return read, f"{repo} の {ref}(fetch済み)\n      {info}"
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    parser.add_argument("src", nargs="?", default=str(DEFAULT_SRC), help="原本のフォルダ(既定: ../geoben/documents/)")
+    parser.add_argument("src", nargs="?", help="原本のフォルダ。指定すると、統合ブランチではなくこのフォルダのファイルをそのまま読む")
+    parser.add_argument("--repo", default=str(DEFAULT_REPO), help="アプリのリポジトリの場所(既定: ../geoben)")
     parser.add_argument("--check", action="store_true", help="書き換えずに、公開ページが原本と一致するかだけ確かめる")
     args = parser.parse_args()
 
-    src_dir = Path(args.src).expanduser().resolve()
-    if not src_dir.is_dir():
-        sys.exit(f"原本のフォルダが見つかりません: {src_dir}")
-    print(f"原本: {src_dir}")
-    print(f"      {describe_source(src_dir)}")
+    if args.src:
+        read_source, desc = folder_source(Path(args.src).expanduser().resolve())
+    else:
+        repo = Path(args.repo).expanduser().resolve()
+        if not repo.is_dir():
+            sys.exit(f"アプリのリポジトリが見つかりません: {repo}(--repo で場所を指定する)")
+        read_source, desc = integration_branch_source(repo)
+    print(f"原本: {desc}")
 
     try:
-        results = [build(page, src_dir) for page in PAGES]
+        results = [build(page, read_source) for page in PAGES]
     except SourceError as e:
         sys.exit(f"エラー: {e}")
 

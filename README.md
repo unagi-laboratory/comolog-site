@@ -36,12 +36,13 @@
 `privacy.html`・`tokushoho.html` の `<main>` の中身は、アプリ側リポジトリ(非公開)の原本 `documents/privacy_policy.md`・`documents/privacy_policy_en.md`(英語版)・`documents/tokushoho.md` から生成します。**HTMLを手で直さず**、原本を直してから生成し直してください。原本はこのリポジトリの GitHub Actions からは読めないので、手元で実行します(Python 3 の標準ライブラリだけで動きます)。
 
 ```sh
-# アプリ側リポジトリを、原本が最新のブランチ(統合ブランチ)にしておく
-python3 scripts/build_policies.py                       # 原本の既定の場所: ../geoben/documents/
-python3 scripts/build_policies.py ~/dev/geoben/documents # 場所を指定する場合
-python3 scripts/build_policies.py --check               # 書き換えずに、公開ページが原本と一致するかだけ確かめる(一致しなければ終了コード1)
+python3 scripts/build_policies.py                        # アプリ側リポジトリ(既定: ../geoben)の統合ブランチをfetchし、その最新の原本から生成する
+python3 scripts/build_policies.py --repo ~/dev/geoben    # アプリ側リポジトリの場所を指定する場合
+python3 scripts/build_policies.py ~/dev/geoben/documents # フォルダのファイルをそのまま読む場合(コミット前の原本を試すとき)
+python3 scripts/build_policies.py --check                # 書き換えずに、公開ページが原本と一致するかだけ確かめる(一致しなければ終了コード1)
 ```
 
+- 統合ブランチは、アプリ側リポジトリのGitHubの既定ブランチから引きます。アプリ側の作業コピーがどのブランチにいても(`main`のままでも)、作業コピーには触れずに統合ブランチの原本を読みます
 - 実行すると、使った原本のブランチと最終コミットを表示し、書き換えたページの差分(`git diff`)を出します。内容を確かめてからコミットしてください
 - `<main>` の外側(`<head>`・CSS・パンくず・フッター)は今あるHTMLをテンプレートとしてそのまま残します。見た目を変えるときは、HTMLの `<main>` の外側を直接直します
 - 原本のうち、`>` で始まる引用ブロック(作業メモ)と、`privacy_policy.md` の `## 付録` 以降(データセーフティの申告メモ)は公開ページに含めません
