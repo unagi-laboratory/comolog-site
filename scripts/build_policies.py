@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""ポリシーの原本(Markdown)から、公開ページ(privacy.html・tokushoho.html)の<main>の中身を生成する。
+"""ポリシーの原本(Markdown)から、公開ページ(privacy.html・privacy-en.html・tokushoho.html)の<main>の中身を生成する。
 
 原本はアプリのリポジトリ(非公開)の documents/ にあるため、手元で実行する。
 <main>の外側(<head>・CSS・パンくず・フッター)は、今あるHTMLをテンプレートとしてそのまま残す。
@@ -12,7 +12,7 @@
     - `# 見出し` → <h1>。`##` → <h2>、`###` → <h3>
     - `>` で始まる引用ブロックは作業メモとして扱い、公開ページに含めない
     - `## 付録` 以降は公開ページに含めない
-    - 本文の最初の段落が「制定日:」「最終改定日:」「最終更新日:」の行だけなら日付として表示する
+    - 本文の最初の段落が「制定日:」「最終改定日:」「最終更新日:」(英語版は「Effective date:」「Last updated:」)の行だけなら日付として表示する
     - `- ` の箇条書き、`1. ` の番号付きリスト、表、**太字**、[リンク](URL)、メールアドレス(自動でリンクにする)
 """
 
@@ -29,16 +29,18 @@ DEFAULT_SRC = ROOT.parent / "geoben" / "documents"
 # table: header=表の1行目を見出し行にする。key_value=見出し行を出さず、各行の1列目を<th>にする(項目と内容の表)
 PAGES = [
     {"src": "privacy_policy.md", "out": "privacy.html", "table": "header"},
+    {"src": "privacy_policy_en.md", "out": "privacy-en.html", "table": "header"},
     {"src": "tokushoho.md", "out": "tokushoho.html", "table": "key_value"},
 ]
 
 # 外部からリンクされている見出しのid。公開済みのURLを壊さないよう、見出しの文言を変えたらここも直す
 HEADING_IDS = {
     "privacy.html": {"5. データの保存期間と削除": "deletion"},
+    "privacy-en.html": {"5. Data retention and deletion": "deletion"},
 }
 
 APPENDIX = re.compile(r"^## 付録")
-DATE_LINE = re.compile(r"^(制定日|最終改定日|最終更新日):")
+DATE_LINE = re.compile(r"^(制定日|最終改定日|最終更新日|Effective date|Last updated):")
 UL_ITEM = re.compile(r"^- (.*)$")
 OL_ITEM = re.compile(r"^\d+\. (.*)$")
 TABLE_SEP = re.compile(r"^\|(\s*:?-+:?\s*\|)+$")
