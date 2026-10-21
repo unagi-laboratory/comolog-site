@@ -4,6 +4,7 @@
 
 - `index.html` — アプリ紹介(1ページ完結。CSS・JSはすべてこのファイルに内蔵)
 - `privacy.html` — プライバシーポリシー(`<main>`の中身は原本から生成。下記「ポリシーのページを更新する」)
+- `privacy-en.html` — プライバシーポリシーの英語版(同上。アプリは日本語以外の画面からこちらを開く)
 - `tokushoho.html` — 特定商取引法に基づく表記(同上)
 - `scripts/build_policies.py` — ポリシーのページを原本から生成するスクリプト
 - `sitemap.xml` — Google Search Console に送信する用
@@ -32,19 +33,20 @@
 
 ## ポリシーのページを更新する
 
-`privacy.html`・`tokushoho.html` の `<main>` の中身は、アプリ側リポジトリ(非公開)の原本 `documents/privacy_policy.md`・`documents/tokushoho.md` から生成します。**HTMLを手で直さず**、原本を直してから生成し直してください。原本はこのリポジトリの GitHub Actions からは読めないので、手元で実行します(Python 3 の標準ライブラリだけで動きます)。
+`privacy.html`・`tokushoho.html` の `<main>` の中身は、アプリ側リポジトリ(非公開)の原本 `documents/privacy_policy.md`・`documents/privacy_policy_en.md`(英語版)・`documents/tokushoho.md` から生成します。**HTMLを手で直さず**、原本を直してから生成し直してください。原本はこのリポジトリの GitHub Actions からは読めないので、手元で実行します(Python 3 の標準ライブラリだけで動きます)。
 
 ```sh
-# アプリ側リポジトリを、原本が最新のブランチ(統合ブランチ)にしておく
-python3 scripts/build_policies.py                       # 原本の既定の場所: ../geoben/documents/
-python3 scripts/build_policies.py ~/dev/geoben/documents # 場所を指定する場合
-python3 scripts/build_policies.py --check               # 書き換えずに、公開ページが原本と一致するかだけ確かめる(一致しなければ終了コード1)
+python3 scripts/build_policies.py                        # アプリ側リポジトリ(既定: ../geoben)の統合ブランチをfetchし、その最新の原本から生成する
+python3 scripts/build_policies.py --repo ~/dev/geoben    # アプリ側リポジトリの場所を指定する場合
+python3 scripts/build_policies.py ~/dev/geoben/documents # フォルダのファイルをそのまま読む場合(コミット前の原本を試すとき)
+python3 scripts/build_policies.py --check                # 書き換えずに、公開ページが原本と一致するかだけ確かめる(一致しなければ終了コード1)
 ```
 
+- 統合ブランチは、アプリ側リポジトリのGitHubの既定ブランチから引きます。アプリ側の作業コピーがどのブランチにいても(`main`のままでも)、作業コピーには触れずに統合ブランチの原本を読みます
 - 実行すると、使った原本のブランチと最終コミットを表示し、書き換えたページの差分(`git diff`)を出します。内容を確かめてからコミットしてください
 - `<main>` の外側(`<head>`・CSS・パンくず・フッター)は今あるHTMLをテンプレートとしてそのまま残します。見た目を変えるときは、HTMLの `<main>` の外側を直接直します
 - 原本のうち、`>` で始まる引用ブロック(作業メモ)と、`privacy_policy.md` の `## 付録` 以降(データセーフティの申告メモ)は公開ページに含めません
-- 外部からリンクされている見出しのid(アカウント削除の `privacy.html#deletion`。Play Console の「アカウント削除URL」に使用)は、スクリプト内の `HEADING_IDS` で見出しの文言と対応させています。原本の見出しの文言を変えたらここも直してください(直さずに実行すると、エラーで止まります)
+- 外部からリンクされている見出しのid(アカウント削除の `privacy.html#deletion`。Play Console の「アカウント削除URL」に使用。英語版も `privacy-en.html#deletion` にそろえている)は、スクリプト内の `HEADING_IDS` で見出しの文言と対応させています。原本の見出しの文言を変えたらここも直してください(直さずに実行すると、エラーで止まります)
 - 原本で使えるのは、見出し・段落・箇条書き・番号付きリスト・表・太字・リンクだけです。それ以外の記法はエラーにして止めます。メールアドレスは自動でリンクにします
 
 ## お問い合わせ
@@ -57,7 +59,7 @@ python3 scripts/build_policies.py --check               # 書き換えずに、�
 
 ## 注意
 
-- 見た目のトークン(色・フォント)は、アプリ側 `documents/design.md` の値に揃えています。変えるときは各HTMLの `:root`(`index.html`・`privacy.html`・`tokushoho.html`)を直します。
+- 見た目のトークン(色・フォント)は、アプリ側 `documents/design.md` の値に揃えています。変えるときは各HTMLの `:root`(`index.html`・`privacy.html`・`privacy-en.html`・`tokushoho.html`)を直します。
 - フォントは Google Fonts(Klee One / Shippori Mincho / Material Symbols)を読み込みます。閲覧者のIPアドレスがGoogleに送られるため、気になる場合はフォントのセルフホストを検討してください。
 - `googlead…html` は Google Search Console の所有権確認用ファイルです。削除しないでください。
 - `robots.txt` は置いていません。プロジェクトページ(`/comolog-site/`配下)に置いても検索エンジンに無視される(有効なのはホスト直下のみ)ためで、クロール制御は不要な方針です。
