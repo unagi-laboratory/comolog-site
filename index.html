@@ -179,13 +179,10 @@ a:focus-visible,summary:focus-visible{outline:2px solid var(--color-moss);outlin
 
 /* ==========================================================================
    5. スマホ枠 + 画面モック(390×820 で作り、transform: scale で縮小)
-   実際のスクリーンショットは assets/screenshots/ に同名ファイルを置くだけで差し替わる
    ========================================================================== */
 .device{--w:270px;--z:.6667;width:var(--w);padding:5px;border-radius:38px;background:#34362F;box-shadow:0 24px 60px rgba(40,36,30,.22),0 2px 6px rgba(40,36,30,.12)}
 .device.lg{--w:300px;--z:.7436}
 .device-screen{position:relative;width:100%;aspect-ratio:390/820;border-radius:33px;overflow:hidden;background:var(--color-washi)}
-.device-screen .shot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;z-index:1}
-.device.has-shot .mock{visibility:hidden}
 .mock{width:390px;height:820px;transform:scale(var(--z));transform-origin:0 0;position:relative;display:flex;flex-direction:column;background:var(--color-washi);color:var(--color-ink-body);font-family:var(--font-sans);line-height:1.5;text-align:left;pointer-events:none;user-select:none}
 .mock *{margin:0}
 
@@ -448,8 +445,6 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
     <div class="hero-device">
       <figure class="device lg">
         <div class="device-screen">
-          <!-- スクショ差し替え: assets/screenshots/home.png を置くと、自動でこのモックの代わりに表示される -->
-          <img class="shot" src="assets/screenshots/home.png" alt="Comologのホーム画面" onload="this.closest('.device').classList.add('has-shot')" onerror="this.remove()">
           <div class="mock" aria-hidden="true">
             <div class="m-home-body">
               <div class="m-date">9月19日(土)</div>
@@ -534,8 +529,6 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <figure class="shot-fig reveal">
         <div class="device">
           <div class="device-screen">
-            <!-- スクショ差し替え: assets/screenshots/report.png -->
-            <img class="shot" src="assets/screenshots/report.png" alt="Comologのレポート画面" loading="lazy" onload="this.closest('.device').classList.add('has-shot')" onerror="this.remove()">
             <div class="mock" aria-hidden="true">
               <div class="m-report-body">
                 <div class="m-title">レポート</div>
@@ -576,8 +569,6 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <figure class="shot-fig reveal">
         <div class="device">
           <div class="device-screen">
-            <!-- スクショ差し替え: assets/screenshots/place.png -->
-            <img class="shot" src="assets/screenshots/place.png" alt="Comologの場所の詳細画面" loading="lazy" onload="this.closest('.device').classList.add('has-shot')" onerror="this.remove()">
             <div class="mock" aria-hidden="true">
               <div class="m-appbar"><span class="ms">arrow_back</span><b>駅前のカフェ</b></div>
               <div class="m-detail-body">
@@ -608,8 +599,6 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <figure class="shot-fig reveal">
         <div class="device">
           <div class="device-screen">
-            <!-- スクショ差し替え: assets/screenshots/history.png -->
-            <img class="shot" src="assets/screenshots/history.png" alt="Comologの履歴画面" loading="lazy" onload="this.closest('.device').classList.add('has-shot')" onerror="this.remove()">
             <div class="mock" aria-hidden="true">
               <div class="m-hist-body">
                 <div class="m-title">履歴</div>
