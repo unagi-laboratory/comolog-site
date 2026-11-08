@@ -178,125 +178,12 @@ a:focus-visible,summary:focus-visible{outline:2px solid var(--color-moss);outlin
 .hero-device .device{position:relative}
 
 /* ==========================================================================
-   5. スマホ枠 + 画面モック(390×820 で作り、transform: scale で縮小)
+   5. スマホ枠 + 画面(画面はストアのスクリーンショットと同じ描き方で書き出した画像。assets/screen-N-*.png)
    ========================================================================== */
-.device{--w:270px;--z:.6667;width:var(--w);padding:5px;border-radius:38px;background:#34362F;box-shadow:0 24px 60px rgba(40,36,30,.22),0 2px 6px rgba(40,36,30,.12)}
-.device.lg{--w:300px;--z:.7436}
-.device-screen{position:relative;width:100%;aspect-ratio:390/820;border-radius:33px;overflow:hidden;background:var(--color-washi)}
-.mock{width:390px;height:820px;transform:scale(var(--z));transform-origin:0 0;position:relative;display:flex;flex-direction:column;background:var(--color-washi);color:var(--color-ink-body);font-family:var(--font-sans);line-height:1.5;text-align:left;pointer-events:none;user-select:none}
-.mock *{margin:0}
-
-/* --- 共通:ボトムナビ --- */
-.m-tabbar{margin-top:auto;display:flex;padding:12px 8px 12px;background:var(--color-washi);border-top:1px solid var(--color-line)}
-.m-tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
-.m-tab .ms{font-size:21px;color:var(--color-faint)}
-.m-tab i{width:4px;height:4px;display:block}
-.m-tab.on .ms{color:var(--color-ink-title);font-variation-settings:'FILL' 1}
-.m-tab.on i{border-radius:50%;background:var(--color-nav-active)}
-.m-title{font-family:var(--font-serif);font-size:22px;font-weight:600;color:var(--color-ink-title)}
-
-/* --- ホーム --- */
-.m-home-body{flex:1;display:flex;flex-direction:column;padding:44px 26px 0;min-height:0}
-.m-date{font-size:13.5px;color:var(--color-sub);letter-spacing:.06em}
-.m-hero{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;margin-top:-24px}
-.m-hero-art{position:relative;width:290px;height:290px;display:flex;align-items:center;justify-content:center}
-.m-bloom{position:absolute;inset:0;animation:breath 6s ease-in-out infinite}
-.m-bloom i{position:absolute;display:block}
-.m-bloom .b1{inset:18px;border-radius:48% 52% 55% 45% / 50% 46% 54% 50%;background:var(--grad-cafe-1)}
-.m-bloom .b2{inset:30px;transform:rotate(24deg);border-radius:55% 45% 48% 52% / 46% 54% 50% 50%;background:var(--grad-cafe-2)}
-.m-bloom .b3{inset:44px;transform:rotate(-18deg);border-radius:52% 48% 45% 55% / 54% 46% 52% 48%;background:var(--grad-cafe-3)}
-.m-ripple{position:absolute;inset:34px;border-radius:50%;border:1px solid var(--color-cafe-ring);animation:ripple 7s ease-out infinite}
-.m-readout{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px}
-.m-place{font-size:14px;color:var(--color-ink-soft)}
-.m-count{display:flex;align-items:baseline;font-family:var(--font-serif);font-feature-settings:'tnum';color:var(--color-ink-title);font-weight:600}
-.m-count b{font-size:58px;line-height:1.1;font-weight:600}
-.m-count span{font-size:19px;margin-left:3px}
-.m-since{font-size:12px;color:var(--color-sub)}
-.m-story{margin-top:26px;font-size:13.5px;line-height:2.1;text-align:center;color:var(--color-ink-soft-2)}
-.m-story b{font-family:var(--font-serif);font-weight:600;color:var(--color-ink-title)}
-.m-week{padding-bottom:26px}
-.m-week-row{display:flex;justify-content:center;align-items:flex-end;gap:18px;height:44px}
-.m-day{display:flex;flex-direction:column;align-items:center;gap:7px}
-.m-drop{display:block;border-radius:50%;background:var(--grad-drop)}
-.m-drop.today{background:var(--grad-drop-today);animation:breath 6s ease-in-out infinite}
-.m-drop.empty{background:none;border:1px solid var(--color-empty-dot)}
-.m-drop.empty.future{border-style:dashed}
-.m-day .dow{font-size:12px;color:var(--color-sub)}
-.m-day.is-today .dow{font-weight:600;color:var(--color-ink-soft)}
-
-/* --- レポート(場所の記録帳) --- */
-.m-report-body{flex:1;padding:44px 24px 0;display:flex;flex-direction:column;gap:14px;min-height:0;overflow:hidden}
-.m-seg{display:flex;padding:3px;background:var(--color-seg-track);border-radius:13px}
-.m-seg span{flex:1;text-align:center;padding:7px 0;font-size:13px;color:var(--color-ink-soft);border-radius:10px}
-.m-seg span.sel{background:var(--color-seg-sel);color:var(--color-ink-title);font-weight:600;box-shadow:0 1px 2px rgba(58,54,48,.1)}
-.m-period{display:flex;align-items:center;justify-content:center;gap:14px;font-size:13.5px;color:var(--color-ink-soft)}
-.m-period .ms{font-size:20px;color:var(--color-ink-soft)}
-.m-period .ms.dim{color:var(--color-empty-dot)}
-.m-card{border-radius:20px;padding:12px 16px 4px;box-shadow:0 1px 3px rgba(58,54,48,.04);border:1px solid var(--color-line)}
-.m-card.cafe{background:linear-gradient(180deg,var(--color-cafe-tile),var(--color-card) 70%)}
-.m-card.lib{background:linear-gradient(180deg,var(--color-lib-tile),var(--color-card) 70%)}
-.m-card.kita{background:linear-gradient(180deg,var(--color-kita-tile),var(--color-card) 70%)}
-.m-card-head{display:flex;align-items:center;gap:10px}
-.m-tile{width:34px;height:34px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:48% 52% 50% 50% / 52% 48% 52% 48%;background:rgba(255,253,246,.6)}
-.m-tile .ms{font-size:18px}
-.cafe .m-tile .ms{color:var(--color-cafe-ink)} .lib .m-tile .ms{color:var(--color-lib-ink)} .kita .m-tile .ms{color:var(--color-kita-ink)}
-.m-card-name{flex:1;font-size:14px;font-weight:600;color:var(--color-ink-title)}
-.lib .m-card-name{color:var(--color-lib-text)}
-.m-card-head .chev{font-size:20px;color:var(--color-chevron)}
-.m-time{display:flex;align-items:baseline;margin:6px 0 8px;font-family:var(--font-serif);font-feature-settings:'tnum';color:var(--color-ink-title);font-weight:600}
-.m-time .u{font-size:13px;margin:0 6px 0 2px}
-.m-stats{display:flex;border-top:1px solid var(--color-line-faint);padding:8px 0}
-.m-stats div{flex:1;display:flex;flex-direction:column;gap:0}
-.m-stats small{font-size:12px;color:var(--color-sub)}
-.m-stats b{font-family:var(--font-serif);font-size:15px;font-weight:600;color:var(--color-ink-title)}
-
-/* --- 場所の詳細(月のドット暦) --- */
-.m-appbar{display:flex;align-items:center;gap:22px;padding:40px 18px 6px}
-.m-appbar .ms{font-size:22px;color:var(--color-ink-title)}
-.m-appbar b{font-size:18px;font-weight:600;color:var(--color-ink-title)}
-.m-detail-body{flex:1;padding:10px 20px 0;display:flex;flex-direction:column;gap:14px;min-height:0;overflow:hidden}
-.m-detail-body .m-card{padding:16px 20px 8px}
-.m-detail-body .m-time{margin:10px 0 10px}
-.m-detail-body .m-time .u{font-size:15px}
-.m-detail-body .m-stats{padding-top:10px}
-.m-detail-body .m-stats b{font-size:16px}
-.m-cal{background:var(--color-card);border:1px solid var(--color-line);border-radius:20px;padding:14px 14px 10px;box-shadow:0 1px 3px rgba(58,54,48,.04)}
-.m-cal .m-period{margin-bottom:6px}
-.m-cal-dow,.m-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
-.m-cal-dow span{text-align:center;font-size:12px;color:var(--color-sub)}
-.m-cal-dow{margin-bottom:6px}
-.m-cal-grid span{aspect-ratio:1;display:flex;align-items:center;justify-content:center}
-.m-cal-grid i{display:flex;align-items:center;justify-content:center;border-radius:50%;font-style:normal;font-size:12px;line-height:1;color:var(--color-ink-title);font-feature-settings:'tnum'}
-.m-cal-grid i.l0{width:20px;height:20px;color:var(--color-sub)}
-.m-cal-grid i.l1{background:var(--color-cafe-heat-1)}
-.m-cal-grid i.l2{background:var(--color-cafe-heat-2)}
-.m-cal-grid i.l3{background:var(--color-cafe-heat-3)}
-.m-cal-grid i.l4{background:var(--color-cafe-heat-4);color:var(--color-seg-sel)}
-
-/* --- 履歴 --- */
-.m-hist-body{flex:1;padding:44px 24px 0;min-height:0;overflow:hidden}
-.m-day-head{display:flex;align-items:baseline;justify-content:space-between;margin:20px 2px 6px}
-.m-day-head span:first-child{font-size:13px;color:var(--color-ink-soft)}
-.m-day-head span:last-child{font-family:var(--font-serif);font-size:13px;font-weight:600;color:var(--color-ink-title)}
-.m-row{display:flex;gap:14px}
-.m-row .ic{width:44px;display:flex;justify-content:center;flex:none;position:relative}
-.m-row .tile{width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:48% 52% 50% 50% / 52% 48% 52% 48%}
-.m-row .tile .ms{font-size:20px}
-.m-row .tile.cafe{background:var(--color-cafe-tile)} .m-row .tile.cafe .ms{color:var(--color-cafe-ink)}
-.m-row .tile.lib{background:var(--color-lib-tile)} .m-row .tile.lib .ms{color:var(--color-lib-ink)}
-.m-row .tile.live{animation:breath 6s ease-in-out infinite}
-.m-row .ic .rip{position:absolute;width:52px;height:52px;top:-5px;border-radius:50%;border:1px solid var(--color-cafe-ring);animation:ripple 5s ease-out infinite}
-.m-row .txt{flex:1;display:flex;flex-direction:column;padding-top:2px}
-.m-row .place{font-size:14px;font-weight:600;color:var(--color-ink-title)}
-.m-row .place.lib{color:var(--color-lib-text)}
-.m-row .place em{font-style:normal;font-size:12px;font-weight:400;color:var(--color-cafe-ink);margin-left:6px}
-.m-row .when{font-size:12px;color:var(--color-sub);font-feature-settings:'tnum'}
-.m-row .when b{font-family:var(--font-serif);font-weight:600;color:var(--color-ink-title)}
-.m-row .when b.lib{color:var(--color-lib-text-2)}
-.m-path{width:44px;display:flex;flex-direction:column;align-items:center;gap:7px;padding:6px 0}
-.m-path i{display:block;width:5px;height:8px;border-radius:50% 50% 45% 55%;background:var(--color-footprint)}
-.m-path i:nth-child(odd){transform:translateX(-5px) rotate(-14deg)}
-.m-path i:nth-child(even){transform:translateX(5px) rotate(14deg)}
+.device{--w:270px;width:var(--w);padding:5px;border-radius:38px;background:#34362F;box-shadow:0 24px 60px rgba(40,36,30,.22),0 2px 6px rgba(40,36,30,.12)}
+.device.lg{--w:300px}
+.device-screen{position:relative;width:100%;aspect-ratio:360/760;border-radius:33px;overflow:hidden;background:var(--color-washi)}
+.screen-img{width:100%;height:100%;object-fit:cover;object-position:top}
 
 /* ==========================================================================
    6. 3ステップ
@@ -445,40 +332,7 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
     <div class="hero-device">
       <figure class="device lg">
         <div class="device-screen">
-          <div class="mock" aria-hidden="true">
-            <div class="m-home-body">
-              <div class="m-date">9月19日(土)</div>
-              <div class="m-hero">
-                <div class="m-hero-art">
-                  <div class="m-bloom"><i class="b1"></i><i class="b2"></i><i class="b3"></i></div>
-                  <div class="m-ripple"></div>
-                  <div class="m-readout">
-                    <div class="m-place">駅前のカフェで</div>
-                    <div class="m-count"><b>42</b><span>分</span></div>
-                    <div class="m-since">8:48から</div>
-                  </div>
-                </div>
-                <p class="m-story">今日の合計 : <b>1時間48分</b></p>
-              </div>
-              <div class="m-week">
-                <div class="m-week-row">
-                  <div class="m-day"><span class="m-drop" style="width:13px;height:13px"></span><span class="dow">月</span></div>
-                  <div class="m-day"><span class="m-drop" style="width:19px;height:19px"></span><span class="dow">火</span></div>
-                  <div class="m-day"><span class="m-drop empty" style="width:6px;height:6px"></span><span class="dow">水</span></div>
-                  <div class="m-day"><span class="m-drop" style="width:17px;height:17px"></span><span class="dow">木</span></div>
-                  <div class="m-day"><span class="m-drop" style="width:15px;height:15px"></span><span class="dow">金</span></div>
-                  <div class="m-day is-today"><span class="m-drop today" style="width:24px;height:24px"></span><span class="dow">土</span></div>
-                  <div class="m-day"><span class="m-drop empty future" style="width:6px;height:6px"></span><span class="dow">日</span></div>
-                </div>
-              </div>
-            </div>
-            <nav class="m-tabbar">
-              <div class="m-tab on"><span class="ms">home</span><i></i></div>
-              <div class="m-tab"><span class="ms">monitoring</span><i></i></div>
-              <div class="m-tab"><span class="ms">history</span><i></i></div>
-              <div class="m-tab"><span class="ms">settings</span><i></i></div>
-            </nav>
-          </div>
+          <img class="screen-img" src="assets/screen-1-home.png" alt="Comologのホーム画面。記録中の場所と経過時間、今日の合計、この一週間の棒" width="1080" height="2280" loading="eager">
         </div>
       </figure>
     </div>
@@ -529,37 +383,7 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <figure class="shot-fig reveal">
         <div class="device">
           <div class="device-screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-report-body">
-                <div class="m-title">レポート</div>
-                <div class="m-seg"><span class="sel">月</span><span>全期間</span></div>
-                <div class="m-period"><span class="ms">chevron_left</span>2026年9月<span class="ms dim">chevron_right</span></div>
-
-                <div class="m-card cafe">
-                  <div class="m-card-head"><span class="m-tile"><span class="ms">local_cafe</span></span><span class="m-card-name">駅前のカフェ</span><span class="ms chev">chevron_right</span></div>
-                  <div class="m-time"><span style="font-size:32px">18</span><span class="u">時間</span><span style="font-size:32px">50</span><span class="u">分</span></div>
-                  <div class="m-stats"><div><small>回数</small><b>12回</b></div><div><small>1回の平均</small><b>1時間34分</b></div></div>
-                </div>
-
-                <div class="m-card lib">
-                  <div class="m-card-head"><span class="m-tile"><span class="ms">local_library</span></span><span class="m-card-name">市立図書館</span><span class="ms chev">chevron_right</span></div>
-                  <div class="m-time"><span style="font-size:26px">9</span><span class="u">時間</span><span style="font-size:26px">20</span><span class="u">分</span></div>
-                  <div class="m-stats"><div><small>回数</small><b>8回</b></div><div><small>1回の平均</small><b>1時間10分</b></div></div>
-                </div>
-
-                <div class="m-card kita">
-                  <div class="m-card-head"><span class="m-tile"><span class="ms">storefront</span></span><span class="m-card-name">北口のコワーキング</span><span class="ms chev">chevron_right</span></div>
-                  <div class="m-time"><span style="font-size:20px">4</span><span class="u">時間</span><span style="font-size:20px">5</span><span class="u">分</span></div>
-                  <div class="m-stats"><div><small>回数</small><b>5回</b></div><div><small>1回の平均</small><b>49分</b></div></div>
-                </div>
-              </div>
-              <nav class="m-tabbar">
-                <div class="m-tab"><span class="ms">home</span><i></i></div>
-                <div class="m-tab on"><span class="ms">monitoring</span><i></i></div>
-                <div class="m-tab"><span class="ms">history</span><i></i></div>
-                <div class="m-tab"><span class="ms">settings</span><i></i></div>
-              </nav>
-            </div>
+            <img class="screen-img" src="assets/screen-2-report.png" alt="レポート画面。場所ごとの1か月の合計時間" width="1080" height="2280" loading="lazy">
           </div>
         </div>
         <figcaption><strong>レポート</strong><span>月ごと・全期間(サポーター版)で、場所ごとの合計時間と回数を見られます。</span></figcaption>
@@ -569,27 +393,7 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <figure class="shot-fig reveal">
         <div class="device">
           <div class="device-screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-appbar"><span class="ms">arrow_back</span><b>駅前のカフェ</b></div>
-              <div class="m-detail-body">
-                <div class="m-card cafe">
-                  <div class="m-card-head"><span class="m-tile"><span class="ms">local_cafe</span></span><span class="m-card-name">駅前のカフェ</span></div>
-                  <div class="m-time"><span style="font-size:40px">18</span><span class="u">時間</span><span style="font-size:40px">50</span><span class="u">分</span></div>
-                  <div class="m-stats"><div><small>回数</small><b>12回</b></div><div><small>1回の平均</small><b>1時間34分</b></div></div>
-                </div>
-                <div class="m-cal">
-                  <div class="m-period"><span class="ms">chevron_left</span>2026年9月<span class="ms dim">chevron_right</span></div>
-                  <div class="m-cal-dow"><span>月</span><span>火</span><span>水</span><span>木</span><span>金</span><span>土</span><span>日</span></div>
-                  <div class="m-cal-grid"><span></span><span><i class="l0">1</i></span><span><i class="l3" style="width:31.4px;height:31.4px">2</i></span><span><i class="l0">3</i></span><span><i class="l3" style="width:33.2px;height:33.2px">4</i></span><span><i class="l0">5</i></span><span><i class="l4" style="width:38.0px;height:38.0px">6</i></span><span><i class="l3" style="width:29.6px;height:29.6px">7</i></span><span><i class="l0">8</i></span><span><i class="l3" style="width:32.6px;height:32.6px">9</i></span><span><i class="l0">10</i></span><span><i class="l4" style="width:36.8px;height:36.8px">11</i></span><span><i class="l2" style="width:28.4px;height:28.4px">12</i></span><span><i class="l3" style="width:30.6px;height:30.6px">13</i></span><span><i class="l0">14</i></span><span><i class="l2" style="width:27.8px;height:27.8px">15</i></span><span><i class="l4" style="width:35.0px;height:35.0px">16</i></span><span><i class="l0">17</i></span><span><i class="l2" style="width:27.2px;height:27.2px">18</i></span><span><i class="l2" style="width:25.0px;height:25.0px">19</i></span><span><i class="l0">20</i></span><span><i class="l0">21</i></span><span><i class="l0">22</i></span><span><i class="l0">23</i></span><span><i class="l0">24</i></span><span><i class="l0">25</i></span><span><i class="l0">26</i></span><span><i class="l0">27</i></span><span><i class="l0">28</i></span><span><i class="l0">29</i></span><span><i class="l0">30</i></span></div>
-                </div>
-              </div>
-              <nav class="m-tabbar">
-                <div class="m-tab"><span class="ms">home</span><i></i></div>
-                <div class="m-tab on"><span class="ms">monitoring</span><i></i></div>
-                <div class="m-tab"><span class="ms">history</span><i></i></div>
-                <div class="m-tab"><span class="ms">settings</span><i></i></div>
-              </nav>
-            </div>
+            <img class="screen-img" src="assets/screen-6-place-detail.png" alt="場所の詳細画面。その場所の1か月の記録を日ごとに表示" width="1080" height="2280" loading="lazy">
           </div>
         </div>
         <figcaption><strong>場所の詳細</strong><span>カードをタップすると、その場所の1か月の記録を日ごとに見られます。</span></figcaption>
@@ -599,57 +403,7 @@ dialog::backdrop{background:rgba(58,54,48,.42)}
       <figure class="shot-fig reveal">
         <div class="device">
           <div class="device-screen">
-            <div class="mock" aria-hidden="true">
-              <div class="m-hist-body">
-                <div class="m-title">履歴</div>
-
-                <div class="m-day-head"><span>今日・9月19日(土)</span><span>1時間48分</span></div>
-                <div class="m-row">
-                  <div class="ic"><span class="tile lib"><span class="ms">local_library</span></span></div>
-                  <div class="txt"><span class="place lib">市立図書館</span><span class="when">7:30 → 8:36・<b class="lib">1時間6分</b></span></div>
-                </div>
-                <div class="m-path"><i></i><i></i></div>
-                <div class="m-row">
-                  <div class="ic"><span class="rip"></span><span class="tile cafe live"><span class="ms">local_cafe</span></span></div>
-                  <div class="txt"><span class="place">駅前のカフェ<em>記録中</em></span><span class="when">8:48 → 今・<b>42分</b></span></div>
-                </div>
-
-                <!-- 日をまたぐ足あとは3つ(アプリと同じ) -->
-                <div class="m-path"><i></i><i></i><i></i></div>
-                <div class="m-day-head" style="margin-top:0"><span>昨日・9月18日(金)</span><span>1時間</span></div>
-                <div class="m-row">
-                  <div class="ic"><span class="tile cafe"><span class="ms">local_cafe</span></span></div>
-                  <div class="txt"><span class="place">駅前のカフェ</span><span class="when">19:12 → 20:12・<b>1時間</b></span></div>
-                </div>
-
-                <div class="m-path"><i></i><i></i><i></i></div>
-                <div class="m-day-head" style="margin-top:0"><span>9月17日(木)</span><span>1時間30分</span></div>
-                <div class="m-row">
-                  <div class="ic"><span class="tile lib"><span class="ms">local_library</span></span></div>
-                  <div class="txt"><span class="place lib">市立図書館</span><span class="when">18:40 → 20:10・<b class="lib">1時間30分</b></span></div>
-                </div>
-
-                <div class="m-path"><i></i><i></i><i></i></div>
-                <div class="m-day-head" style="margin-top:0"><span>9月16日(水)</span><span>2時間5分</span></div>
-                <div class="m-row">
-                  <div class="ic"><span class="tile cafe"><span class="ms">local_cafe</span></span></div>
-                  <div class="txt"><span class="place">駅前のカフェ</span><span class="when">9:20 → 11:25・<b>2時間5分</b></span></div>
-                </div>
-
-                <div class="m-path"><i></i><i></i><i></i></div>
-                <div class="m-day-head" style="margin-top:0"><span>9月14日(月)</span><span>1時間15分</span></div>
-                <div class="m-row">
-                  <div class="ic"><span class="tile lib"><span class="ms">local_library</span></span></div>
-                  <div class="txt"><span class="place lib">市立図書館</span><span class="when">19:00 → 20:15・<b class="lib">1時間15分</b></span></div>
-                </div>
-              </div>
-              <nav class="m-tabbar">
-                <div class="m-tab"><span class="ms">home</span><i></i></div>
-                <div class="m-tab"><span class="ms">monitoring</span><i></i></div>
-                <div class="m-tab on"><span class="ms">history</span><i></i></div>
-                <div class="m-tab"><span class="ms">settings</span><i></i></div>
-              </nav>
-            </div>
+            <img class="screen-img" src="assets/screen-5-history.png" alt="履歴画面。日ごとの記録のタイムライン" width="1080" height="2280" loading="lazy">
           </div>
         </div>
         <figcaption><strong>履歴</strong><span>毎日の歩みをタイムラインで遡れます。間違った記録は、あとから編集・削除できます。</span></figcaption>
